@@ -20,7 +20,18 @@ spring:
           uri: lb://MS-ACCOUNT
           predicates:
             - Path=/account/**
-
+        - id: ms-credit
+          uri: lb://MS-CREDIT
+          predicates:
+            - Path=/credit/**
+        - id: ms-transaction
+          uri: lb://MS-TRANSACTION
+          predicates:
+            - Path=/transaction/**
+        - id: ms-payment
+          uri: lb://MS-PAYMENT
+          predicates:
+            - Path=/payment/**
 resilience4j:
   circuitbreaker:
     configs:
