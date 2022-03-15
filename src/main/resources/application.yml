@@ -1,0 +1,43 @@
+server:
+  port: 9020
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+#    enabled: false
+spring:
+  application:
+    name: server-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms-customer
+          uri: lb://MS-CUSTOMER
+          predicates:
+            - Path=/customer/**
+        - id: ms-account
+          uri: lb://MS-ACCOUNT
+          predicates:
+            - Path=/account/**
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 6 # 1
+        failure-rate-threshold: 50 # 2
+        wait-duration-in-open-state: 20s # 3
+        permitted-number-of-calls-in-half-open-state: 4 # 4
+        slow-call-rate-threshold: 50 # 5
+        slow-call-duration-threshold: 2s # 6
+    instances:
+      ms-customer:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 2s
+    instances:
+      client2:
+        base-config: default
