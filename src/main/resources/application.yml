@@ -33,6 +33,14 @@ spring:
           uri: lb://MS-PAYMENT
           predicates:
             - Path=/payment/**
+        - id: ms-movement
+          uri: lb://MS-MOVEMENT
+          predicates:
+            - Path=/movements/**
+        - id: ms-report
+          uri: lb://MS-REPORT
+          predicates:
+            - Path=/report/**
 resilience4j:
   circuitbreaker:
     configs:
